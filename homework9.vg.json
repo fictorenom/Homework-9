@@ -19,21 +19,24 @@
         "key": "Provider State",
         "fields": ["Average Total Payment"]
       }
-    }
+    },
+    {
+      "joinaggregate":[{"op": "mean","field": "Average Total Payment","as": "avgpm"}]
+  }
   ],
   "mark": {"type": "geoshape", "stroke":"grey", "strokeWidth": 0.5},
     "encoding": {
       "color": {
-        "field": "Average Total Payment",
+        "field": "avgpm",
         "type": "quantitative",
         "condition": {
-          "test": "datum['Average Total Payment'] === null ",
+          "test": "datum['avgpm'] === null ",
           "value": "lightgrey"
         }
       },
       "tooltip": [
         {"field": "properties.name", "type": "nominal", "title": "State"},
-        {"field": "Average Total Payment", "type": "quantitative"}
+        {"field": "avgpm", "type": "quantitative"}
       ]
     },
     
