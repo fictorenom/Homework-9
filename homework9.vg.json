@@ -1,0 +1,43 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "USA Real Estate Average Prices",
+    "width": 800,
+    "height": 400,
+    "projection": {"type": "albersUsa"},
+    "data": {
+      "url": "ne_110m_admin_1_states_provinces.topojson",
+      "format": {"type": "topojson", "feature": "ne_110m_admin_1_states_provinces"}
+    },
+    "transform": [
+      {
+        "lookup": "properties.name",
+        "from": {
+          "data": {
+            "url": "hospital-charges.csv"
+          },
+          "key": "Provider State",
+          "fields": ["Average Total Payments"]
+        }
+      }
+    ],
+    "mark": {"type": "geoshape"},
+    "encoding": {
+      "color": {
+        "field": "price",
+        "type": "quantitative",
+        "scale": {"type": "log"},
+        "condition": {
+            "test": "datum['price'] === null ",
+            "value": "lightgrey"
+    }
+      },
+    
+      "tooltip": [
+        {"field": "properties.name", "type": "nominal", "title": "Provider State"},
+        {"field": "Average Total Payments", "type": "quantitative"}
+      ]
+    },
+    "config": {
+        "mark": {"invalid": null}
+      }
+  }
