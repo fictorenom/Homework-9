@@ -1,43 +1,43 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": "USA Real Estate Average Prices",
-    "width": 800,
-    "height": 400,
-    "projection": {"type": "albersUsa"},
-    "data": {
-      "url": "https://raw.githubusercontent.com/fictorenom/Homework-9/main/ne_10m_admin_1_states_provinces.json",
-      "format": {"type": "topojson", "feature": "ne_10m_admin_1_states_provinces"}
-    },
-    "transform": [
-      {
-        "lookup": "properties.name",
-        "from": {
-          "data": {
-            "url": "https://raw.githubusercontent.com/fictorenom/Homework-9/main/hospital-charges.csv"
-          },
-          "key": "Provider State",
-          "fields": ["Average Total Payments"]
-        }
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Average Payment by Patients in Hospitals of Each State",
+  "width": 800,
+  "height": 400,
+  "projection": {"type": "albersUsa"},
+    
+  "data": {
+  "url": "https://gist.githubusercontent.com/jrrickard/8755532505a40f3b8317/raw/ecd98849d3a5f4502b773b986254f19af3b8d8fb/states_usa.json",
+  "format": {"type": "topojson", "feature": "states"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.name",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/fictorenom/Homework-9/main/hospital-charges.csv"
+        },
+        "key": "Provider State",
+        "fields": ["Average Total Payment"]
       }
-    ],
-    "mark": {"type": "geoshape"},
+    }
+  ],
+  "mark": {"type": "geoshape", "stroke":"grey", "strokeWidth": 0.5},
     "encoding": {
       "color": {
-        "field": "price",
+        "field": "Average Total Payment",
         "type": "quantitative",
-        "scale": {"type": "log"},
         "condition": {
-            "test": "datum['Average Total Payments'] === null ",
-            "value": "lightgrey"
-    }
+          "test": "datum['Average Total Payment'] === null ",
+          "value": "lightgrey"
+        }
       },
-    
       "tooltip": [
-        {"field": "properties.name", "type": "nominal", "title": "Provider State"},
-        {"field": "Average Total Payments", "type": "quantitative"}
+        {"field": "properties.name", "type": "nominal", "title": "State"},
+        {"field": "Average Total Payment", "type": "quantitative"}
       ]
     },
-    "config": {
-        "mark": {"invalid": null}
-      }
+    
+  "config": {
+    "mark": {"invalid": null}
   }
+}
