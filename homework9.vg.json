@@ -5,7 +5,7 @@
     "height": 400,
     "projection": {"type": "albersUsa"},
     "data": {
-      "url": "ne_110m_admin_1_states_provinces.topojson",
+      "url": "https://raw.githubusercontent.com/fictorenom/Homework-9/main/ne_110m_admin_1_states_provinces.topojson",
       "format": {"type": "topojson", "feature": "ne_110m_admin_1_states_provinces"}
     },
     "transform": [
@@ -13,7 +13,7 @@
         "lookup": "properties.name",
         "from": {
           "data": {
-            "url": "hospital-charges.csv"
+            "url": "https://raw.githubusercontent.com/fictorenom/Homework-9/main/hospital-charges.csv"
           },
           "key": "Provider State",
           "fields": ["Average Total Payments"]
