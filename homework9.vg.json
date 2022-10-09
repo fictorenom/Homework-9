@@ -4,43 +4,39 @@
   "width": 800,
   "height": 400,
   "projection": {"type": "albersUsa"},
-    
   "data": {
   "url": "https://gist.githubusercontent.com/jrrickard/8755532505a40f3b8317/raw/ecd98849d3a5f4502b773b986254f19af3b8d8fb/states_usa.json",
   "format": {"type": "topojson", "feature": "states"}
   },
   "transform": [
-    {
-      "lookup": "properties.name",
-      "from": {
-        "data": {
-          "url": "https://raw.githubusercontent.com/fictorenom/Homework-9/main/hospital-charges.csv"
-        },
-        "key": "Provider State",
-        "fields": ["Average Total Payment"]
-      }
-    },
-    {
-      "joinaggregate":[{"op": "mean","field": "Average Total Payment","as": "avgpm"}]
+  {
+  "lookup": "properties.name",
+  "from": {
+  "data": {
+  "url": "https://raw.githubusercontent.com/fictorenom/Homework-9/main/hospital-charges.csv"
+  },
+  "key": "Provider State",
+  "fields": [" Average Total Payments "]
   }
+  },
+  {"calculate": "toNumber(slice(datum[' Average Total Payments '], 1))", "as": "atp"}
   ],
-  "mark": {"type": "geoshape", "stroke":"grey", "strokeWidth": 0.5},
-    "encoding": {
-      "color": {
-        "field": "avgpm",
-        "type": "quantitative",
-        "condition": {
-          "test": "datum['avgpm'] === null ",
-          "value": "lightgrey"
-        }
-      },
-      "tooltip": [
-        {"field": "properties.name", "type": "nominal", "title": "State"},
-        {"field": "avgpm", "type": "quantitative"}
-      ]
+  "mark": {"type": "geoshape", "stroke": "grey", "strokeWidth": 0.5},
+  "encoding": {
+  "color": {
+  "field": "atp",
+  "type": "quantitative",
+  "scale":{"type": "threshold",
+           "domain":[5000,10000,20000,30000],
+           "range":["#fafa6e","#fed033","#ffa200","#ff6d00","#ff0000"]
+
     },
-    
-  "config": {
-    "mark": {"invalid": null}
+  "condition": {"test": "datum['atp'] == null ", "value": "lightgrey"}
+  },
+  "tooltip": [
+  {"field": "properties.name", "type": "nominal", "title": "State"},
+  {"field": "atp", "type": "quantitative"}
+  ]
+  },
+  "config": {"mark": {"invalid": null}}
   }
-}
